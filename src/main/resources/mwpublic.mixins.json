@@ -1,1 +1,1 @@
-{"minVersion":"0.8","required": true, "package": "com.deuteriumix.mwpublic.mixin", "compatibilityLevel": "JAVA_17", "client": ["BannerEvents", "BannerSounds", "FullEditionNotice"], "injectors": {"defaultRequire": 1}, "mixins": ["TaczShotMixin", "OneShotKillMixin"]}
+{"minVersion":"0.8","required": true, "package": "com.deuteriumix.mwpublic.mixin", "compatibilityLevel": "JAVA_17", "client": ["PresetRowColor", "BannerEvents", "BannerSounds", "FullEditionNotice"], "injectors": {"defaultRequire": 1}, "mixins": ["TaczShotMixin", "OneShotKillMixin"]}
