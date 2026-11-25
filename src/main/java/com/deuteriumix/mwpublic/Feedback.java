@@ -33,7 +33,7 @@ public final class Feedback {
     private static Notice current;
     private static long started;
     private static boolean checked;
-    private static boolean ours(String id){
+    public static boolean ours(String id){
         var cfg=ElementConfigManager.getElementConfig(id,"kill_icon/scrolling");
         return cfg!=null && cfg.has("mwiii_public_queue") && cfg.get("mwiii_public_queue").getAsBoolean();
     }
@@ -46,8 +46,11 @@ public final class Feedback {
         if(!(mc.screen instanceof TitleScreen) && mc.level==null)return;
         checked=true;
         var marker=FMLPaths.CONFIGDIR.get().resolve("mwpublic-installed.txt");
-        if(Files.isRegularFile(marker))return;
         try{
+            if(Files.isRegularFile(marker)){
+                renameLegacyPreset(Files.readString(marker).trim());
+                return;
+            }
             String id="62024";
             if(!ours(id)){
                 if(ConfigManager.getPresetIds().contains(id))id=PresetPackManager.generateRandomId();
@@ -57,9 +60,16 @@ public final class Feedback {
                     if(!PresetPackManager.importPreset(file.toFile(),id))throw new java.io.IOException("Preset import failed");
                 }finally{Files.deleteIfExists(file);}
             }
+            renameLegacyPreset(id);
             ConfigManager.setCurrentPresetId(id);
             Files.writeString(marker,id);
         }catch(Exception ex){com.mojang.logging.LogUtils.getLogger().error("Could not install the MWIII public preset",ex);}
+    }
+    private static void renameLegacyPreset(String id){
+        if (ConfigManager.getPresetIds().contains(id) && ours(id)
+                && "MWIII · 原生战斗反馈".equals(ElementConfigManager.getPresetDisplayName(id))) {
+            ElementConfigManager.setPresetDisplayName(id, "使命召唤 : 现代战争3模式");
+        }
     }
     public static void enqueue(String renderer,int type,int combo){
         String title,slot;
