@@ -1,13 +1,19 @@
 package com.deuteriumix.mwpublic;
-
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import java.util.Optional;
 import net.minecraft.resources.ResourceLocation;
-
-public record OneShotKill() implements CustomPacketPayload {
-    public static final OneShotKill INSTANCE = new OneShotKill();
-    public static final Type<OneShotKill> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath("mwfeedback","one_shot_kill"));
-    public static final StreamCodec<RegistryFriendlyByteBuf,OneShotKill> CODEC = StreamCodec.unit(INSTANCE);
-    @Override public Type<OneShotKill> type() { return TYPE; }
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
+public record OneShotKill() {
+    public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
+        new ResourceLocation("mwpublic", "combat"), () -> "1",
+        NetworkRegistry.acceptMissingOr("1"), NetworkRegistry.acceptMissingOr("1"));
+    static void register() {
+        CHANNEL.registerMessage(0, OneShotKill.class, (msg, buf) -> {}, buf -> new OneShotKill(),
+            (msg, supplier) -> {
+                var ctx = supplier.get();
+                ctx.enqueueWork(() -> Feedback.special("一枪一个"));
+                ctx.setPacketHandled(true);
+            }, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+    }
 }

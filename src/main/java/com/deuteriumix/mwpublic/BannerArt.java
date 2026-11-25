@@ -46,17 +46,17 @@ final class BannerArt {
         }
     }
 
-    private static float unit(float v){return Math.clamp(v,0,1);}
+    private static float unit(float v){return Math.max(0,Math.min(1,v));}
     private static float out(float t){float v=1-unit(t);return 1-v*v;}
     private static void quad(GuiGraphics g,ResourceLocation tex,float x,float y,float w,float h,
                              float u0,float v0,float u1,float v1,int rgb,float opacity){
         if(opacity<=0 || w<=0 || h<=0)return;
         var mat=g.pose().last().pose();var q=g.bufferSource().getBuffer(RenderType.text(tex));
         int color=Math.round(255*unit(opacity))<<24|rgb;
-        q.addVertex(mat,x,y+h,0).setColor(color).setUv(u0,v1).setLight(LightTexture.FULL_BRIGHT);
-        q.addVertex(mat,x+w,y+h,0).setColor(color).setUv(u1,v1).setLight(LightTexture.FULL_BRIGHT);
-        q.addVertex(mat,x+w,y,0).setColor(color).setUv(u1,v0).setLight(LightTexture.FULL_BRIGHT);
-        q.addVertex(mat,x,y,0).setColor(color).setUv(u0,v0).setLight(LightTexture.FULL_BRIGHT);
+        q.vertex(mat,x,y+h,0).color(color).uv(u0,v1).uv2(LightTexture.FULL_BRIGHT).endVertex();
+        q.vertex(mat,x+w,y+h,0).color(color).uv(u1,v1).uv2(LightTexture.FULL_BRIGHT).endVertex();
+        q.vertex(mat,x+w,y,0).color(color).uv(u1,v0).uv2(LightTexture.FULL_BRIGHT).endVertex();
+        q.vertex(mat,x,y,0).color(color).uv(u0,v0).uv2(LightTexture.FULL_BRIGHT).endVertex();
     }
     private static void img(GuiGraphics g,ResourceLocation tex,float x,float y,float w,float h,int rgb,float a){
         quad(g,tex,x,y,w,h,0,0,1,1,rgb,a);

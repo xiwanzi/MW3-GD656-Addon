@@ -6,11 +6,11 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.loading.FMLPaths;
-import net.neoforged.neoforge.client.event.*;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.client.event.*;
 import org.mods.gd656killicon.client.config.*;
 import org.mods.gd656killicon.client.sounds.ExternalSoundManager;
 import java.nio.file.*;
@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @EventBusSubscriber(modid="mwpublic",value=Dist.CLIENT)
 public final class Feedback {
-    static ResourceLocation image(String path){return ResourceLocation.fromNamespaceAndPath("mwpublic","textures/"+path+".png");}
+    static ResourceLocation image(String path){return new ResourceLocation("mwpublic","textures/"+path+".png");}
     static void label(GuiGraphics g,Component c,float x,float y,float scale,int color,float alpha){
         int a=Math.round(alpha*255);if(a<4)return;
         g.pose().pushPose();g.pose().translate(x,y,0);g.pose().scale(scale,scale,1);
@@ -40,8 +40,8 @@ public final class Feedback {
     public static boolean owns(String category,String name){
         return "kill_icon".equals(category) && ("scrolling".equals(name)||"combo".equals(name)) && ours(ConfigManager.getCurrentPresetId());
     }
-    @SubscribeEvent public static void install(ClientTickEvent.Post e){
-        if(checked)return;
+    @SubscribeEvent public static void install(net.minecraftforge.event.TickEvent.ClientTickEvent e){
+        if(e.phase != net.minecraftforge.event.TickEvent.Phase.END || checked)return;
         var mc=Minecraft.getInstance();
         if(!(mc.screen instanceof TitleScreen) && mc.level==null)return;
         checked=true;
