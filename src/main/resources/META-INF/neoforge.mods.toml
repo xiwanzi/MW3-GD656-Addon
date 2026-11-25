@@ -1,0 +1,18 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="All Rights Reserved"
+[[mods]]
+modId="mwpublic"
+version="1.1.1"
+displayName="MW3 GD656 Addon"
+authors="xiwanzi"
+logoFile="assets/mwpublic/icon.png"
+description="""GD656Killicon 的 MW3 战斗反馈附属。"""
+[[mixins]]
+config="mwpublic.mixins.json"
+[[dependencies.mwpublic]]
+modId="gd656killicon"
+type="required"
+versionRange="[1.3.2,1.4)"
+ordering="AFTER"
+side="BOTH"
