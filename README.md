@@ -4,7 +4,7 @@ GD656Killicon 的 MW3 战斗反馈附属。
 
 ## 安装
 
-从 [Releases](https://github.com/xiwanzi/MW3-GD656-Addon/releases) 下载 JAR，放入客户端的 `mods/`。需要 Minecraft 1.20.1、Java 17、Forge（实测 47.4.0）和 [GD656Killicon 1.3.2 的 Forge 1.20.1 版](https://modrinth.com/mod/gd656killicon/version/zSQIkgKo)。首次启动会自动应用内置预设。TaCZ 可选，已验证 Forge 1.20.1 版 1.2.0 Hotfix。TaCZ 的「一枪一个」在多人游戏中还需服务端支持。
+从 [Releases](https://github.com/xiwanzi/MW3-GD656-Addon/releases) 下载 JAR，放入客户端的 `mods/`。需要 Minecraft 1.20.1、Java 17、Forge（实测 47.4.0）和 [GD656Killicon 1.3.2 的 Forge 1.20.1 版](https://modrinth.com/mod/gd656killicon/version/zSQIkgKo)。首次启动会自动应用内置预设。
 
 ## 构建
 
